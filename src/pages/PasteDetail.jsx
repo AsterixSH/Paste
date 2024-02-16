@@ -1,6 +1,7 @@
 import { useParams } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { getFirestore, doc, getDoc } from 'firebase/firestore';
+import MonacoEditor from "react-monaco-editor";
 
 const PasteDetail = () => {
   const { pasteId } = useParams();
@@ -35,9 +36,25 @@ const PasteDetail = () => {
     fetchPasteContent();
   }, [db, pasteId]);
 
-  return ( // probs need to make this look a bit cuter. but for now can stay ass.
-    <div>
-      <pre>{pasteContent}</pre>
+  const options = {
+    readOnly: true,
+    fontSize: 13,
+    lineHeight: 24,
+    minimap: {
+      enabled: false,
+    },
+  };
+
+  return (
+    <div className="h-screen flex justify-center items-center bg-background-gray">
+      <MonacoEditor
+        language="plaintext"
+        theme="vs-dark"
+        value={pasteContent}
+        options={options}
+        height="100vh"
+        width="100vw"
+      />
     </div>
   );
 };
