@@ -7,6 +7,9 @@ import firebaseConfig from '../components/firebaseConfig.jsx';
 import PasteDetail from "./PasteDetail.jsx";
 import MonacoEditor from "react-monaco-editor";
 
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
@@ -60,6 +63,19 @@ const Home = () => {
   const savePasteToFirebase = async () => {
     try {
 
+      // Check if paste content exceeds maximum allowed length of 5000 characters or 5000 lines
+      if (pasteContent.length > 5000 && pasteContent.split('\n').length > 5000) {
+        toast.error('Paste content exceeds maximum allowed length of 5,000 characters and 5,000 lines.');
+        return
+      } else if (pasteContent.length > 5000) {
+        toast.error('Paste content exceeds maximum allowed length of 5,000 characters.');
+        return
+      } else if (pasteContent.split('\n').length > 3) {
+        toast.error('Paste content exceeds maximum allowed length of 5,000 lines.') // {position: toast.POSITION.TOP_RIGHT_CORNER,}
+        return
+      }
+
+      toast.error("test")
       const pasteRef = collection(db, 'pastes');
       // generates id using timestamp
       const newPaste = await addDoc(pasteRef, {
@@ -75,7 +91,6 @@ const Home = () => {
       console.error('Error saving the paste to firebase ', error);
     }
   };
-  
 
   return (
     <div className="h-screen flex flex-col bg-background-gray">
@@ -95,6 +110,7 @@ const Home = () => {
           <button onClick={savePasteToFirebase} className="hover:bg-primary/70 transition duration-150 bg-primary text-black px-3 py-1 rounded-lg font-bold text-sm">
             Upload
           </button>
+          <ToastContainer />
           <button className="hover:bg-primary/70 transition duration-150 bg-primary text-black px-3 rounded-lg font-bold text-sm">
             Copy
           </button>
@@ -127,7 +143,7 @@ const Home = () => {
             value={pasteContent}
           />
         </div>
-
+        <ToastContainer />
         {/* <textarea
           value={pasteContent}
           onChange={(e) => setPasteContent(e.target.value)}
