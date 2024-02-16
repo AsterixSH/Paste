@@ -1,0 +1,15 @@
+{
+  "projects": {
+    "default": "paste-3e032"
+  },
+  "targets": {
+    "paste-3e032": {
+      "hosting": {
+        "paste": [
+          "asterix-paste"
+        ]
+      }
+    }
+  },
+  "etags": {}
+}
