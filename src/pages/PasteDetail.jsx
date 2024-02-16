@@ -6,6 +6,9 @@ import MonacoEditor from "react-monaco-editor";
 const PasteDetail = () => {
   const { pasteId } = useParams();
   const [pasteContent, setPasteContent] = useState('');
+  const [pasteNotFound, setPasteNotFound] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   const db = getFirestore();
 
   useEffect(() => {
@@ -18,18 +21,13 @@ const PasteDetail = () => {
           const pasteData = pasteDocSnap.data();
           setPasteContent(pasteData.content);
         } else {
-          return (
-            <div>
-              <h2>Paste not found</h2>
-            </div>
-          );
+          setPasteNotFound(true);
         }
       } catch (error) {
-          return (
-            <div>
-              <h2>There was an error rendering this paste or sumn man</h2>
-            </div>
-          );
+          console.error('Error fetching paste content:', error);
+          setError(error.message);
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -44,6 +42,38 @@ const PasteDetail = () => {
       enabled: false,
     },
   };
+
+  // imo using setters and if statements for stuff like this is stupid i know. but the other way i tried didnt work so here we are.
+  if (loading) {
+    return (
+        <div className="h-screen flex justify-center items-center bg-gray-800">
+          <div className="bg-gray-900 rounded-lg p-8 text-white text-center">
+            <h2 className="text-2xl font-mono mb-1">Loading paste...</h2>
+          </div>
+        </div>
+    );
+  }
+
+  if (pasteNotFound) {
+    return (
+        <div className="h-screen flex justify-center items-center bg-gray-800">
+          <div className="bg-gray-900 rounded-lg p-8 text-white text-center">
+            <h2 className="text-2xl font-mono mb-1">Sorry, this paste id is invalid :(</h2>
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="h-screen flex justify-center items-center bg-gray-800">
+        <div className="bg-gray-900 rounded-lg p-8 text-white text-center">
+          <h2 className="text-2xl font-mono mb-1">Error fetching paste content</h2>
+          <p className="text-red-500">{error}</p>
+        </div>
+      </div>
+    ); // for now we can show the error message but in future remove this so we dont leak bts shit
+  }
 
   return (
     <div className="h-screen flex justify-center items-center bg-background-gray">
