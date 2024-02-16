@@ -28,3 +28,4 @@ dist-ssr
 *.sw?
 src/components/firebaseConfig.jsx
 bun.lockb
+.firebase
