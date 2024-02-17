@@ -19,7 +19,6 @@ const Home = () => {
   const [pasteContent, setPasteContent] = useState('');
   const navigate = useNavigate();
   const [pastes, setPastes] = useState([]);
-  const [selectedLanguage, setSelectedLanguage] = useState("python"); // Default language
 
   const options = {
     autoIndent: 'full',
@@ -144,7 +143,7 @@ const Home = () => {
         <div className='col-span-5 overflow-hidden'>
           <Editor
           theme="vs-dark"
-          defaultLanguage={selectedLanguage}
+          defaultLanguage="python"
           minimap="false"
           onChange={onChange}
           options={options}
