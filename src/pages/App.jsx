@@ -117,7 +117,6 @@ const Home = () => {
           <button onClick={savePasteToFirebase} className="hover:bg-primary/70 transition duration-150 bg-primary text-black px-3 py-1 rounded-lg font-bold text-sm">
             Upload
           </button>
-          <ToastContainer />
           <button className="hover:bg-primary/70 transition duration-150 bg-primary text-black px-3 rounded-lg font-bold text-sm">
             Copy
           </button>
@@ -125,6 +124,8 @@ const Home = () => {
             Clear
           </button>
         </div>
+        <ToastContainer />
+
       </navbar>
 
       <main className="grid grid-cols-6 h-full">

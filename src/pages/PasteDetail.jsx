@@ -2,6 +2,10 @@ import { useParams } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { getFirestore, doc, getDoc } from 'firebase/firestore';
 import Editor from "@monaco-editor/react"
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import '../assets/styles/app.css';
+import CodeIcon from '../components/CodeIcon.jsx';
 
 const PasteDetail = () => {
   const { pasteId } = useParams();
@@ -19,13 +23,16 @@ const PasteDetail = () => {
     lineHeight: 24,
     hideCursorInOverviewRuler: true,
     matchBrackets: 'always',
+
     minimap: {
       enabled: false,
     },
+
     scrollbar: {
       horizontalSliderSize: 4,
       verticalSliderSize: 18,
     },
+
     selectOnLineNumbers: true,
     roundedSelection: false,
     readOnly: true,
@@ -42,6 +49,9 @@ const PasteDetail = () => {
         if (pasteDocSnap.exists()) {
           const pasteData = pasteDocSnap.data();
           setPasteContent(pasteData.content);
+
+          // TODO: update this to display current syntax highlighting setting
+          toast.info("Highlighting syntax for TypeScript", {icon: <CodeIcon />,})
         } else {
           setPasteNotFound(true);
         }
@@ -56,47 +66,53 @@ const PasteDetail = () => {
     fetchPasteContent();
   }, [db, pasteId]);
 
-  // imo using setters and if statements for stuff like this is stupid i know. but the other way i tried didnt work so here we are.
   if (loading) {
     return (
-        <div className="h-screen flex justify-center items-center bg-gray-800">
-          <div className="bg-gray-900 rounded-lg p-8 text-white text-center">
-            <h2 className="text-2xl font-mono mb-1">Loading paste...</h2>
-          </div>
+      <div className="h-screen flex justify-center items-center bg-loading">
+        <div className="bg-nav-gray rounded-lg p-8 text-white text-center shadow-xl">
+          <h2 className="text-3xl font-semibold mb-4">Loading...</h2>
+          <p className="text-lg mb-4">We are currently loading the requested paste...</p>
+          {/* <p className="text-sm">This shouldn't take long unless unexpected paste content size or database responce times.</p> */}
         </div>
+      </div>
     );
   }
 
   if (pasteNotFound) {
     return (
-        <div className="h-screen flex justify-center items-center bg-gray-800">
-          <div className="bg-gray-900 rounded-lg p-8 text-white text-center">
-            <h2 className="text-2xl font-mono mb-1">Sorry, this paste id is invalid :(</h2>
+      <div className="h-screen flex justify-center items-center bg-loading">
+        <div className="bg-nav-gray rounded-lg p-8 text-white text-center shadow-xl">
+          <h2 className="text-3xl font-semibold mb-4">Invalid paste identifier</h2>
+          <p className="text-lg mb-4">We couldn't find the paste you're looking for. It may have been removed or doesn't exist.</p>
+          <p className="text-sm">Please check the ID and try again.</p>
         </div>
       </div>
     );
   }
 
+
   if (error) {
     return (
-      <div className="h-screen flex justify-center items-center bg-gray-800">
-        <div className="bg-gray-900 rounded-lg p-8 text-white text-center">
-          <h2 className="text-2xl font-mono mb-1">Error fetching paste content</h2>
-          <p className="text-red-500">{error}</p>
+        <div className="h-screen flex justify-center items-center bg-loading">
+          <div className="bg-nav-gray rounded-lg p-8 text-white text-center shadow-xl">
+            <h2 className="text-3xl font-semibold mb-4">Error fetching paste content</h2>
+            <p className="text-sm">{error}</p>
+          </div>
         </div>
-      </div>
     ); // for now we can show the error message but in future remove this so we dont leak bts shit
   }
 
   return (
-    <div className='w-full h-screen'>
-      <Editor
+      <div className='w-full h-screen'>
+        <Editor
       theme="vs-dark"
       defaultLanguage="typescript"
       options={options}
       value={pasteContent}
       />
+      <ToastContainer />
     </div>
+
   );
 };
 

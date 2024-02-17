@@ -12,6 +12,9 @@ export default {
         'divider': '#333333',
         'primary': '#dff976',
       },
+      backgroundImage: {
+        'loading': "url('/src/assets/images/loading.png')",
+      }
     },
   },
   plugins: [],
