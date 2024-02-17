@@ -7,6 +7,9 @@ import firebaseConfig from '../components/firebaseConfig.jsx';
 import PasteDetail from "./PasteDetail.jsx";
 import Editor from "@monaco-editor/react"
 
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
@@ -14,6 +17,7 @@ const Home = () => {
   const [pasteContent, setPasteContent] = useState('');
   const navigate = useNavigate();
   const [pastes, setPastes] = useState([]);
+  const [selectedLanguage, setSelectedLanguage] = useState("python"); // Default language
 
   const options = {
     autoIndent: 'full',
@@ -67,12 +71,12 @@ const Home = () => {
       } else if (pasteContent.length > 5000) {
         toast.error('Paste content exceeds maximum allowed length of 5,000 characters.');
         return
-      } else if (pasteContent.split('\n').length > 3) {
-        toast.error('Paste content exceeds maximum allowed length of 5,000 lines.') // {position: toast.POSITION.TOP_RIGHT_CORNER,}
+      } else if (pasteContent.split('\n').length > 5000) {
+        toast.error('Paste content exceeds maximum allowed length of 5,000 lines.'); // yet to position, prob bottom right corner
         return
       }
 
-      toast.error("test")
+      toast.success("Successfully uploaded paste!")
       const pasteRef = collection(db, 'pastes');
       // generates id using timestamp
       const newPaste = await addDoc(pasteRef, {
@@ -88,7 +92,10 @@ const Home = () => {
       console.error('Error saving the paste to firebase ', error);
     }
   };
-  
+
+  const handleLanguageChange = (language) => {
+    setSelectedLanguage(language);
+  };
 
   return (
     <div className="h-screen flex flex-col bg-background-gray">
@@ -109,6 +116,16 @@ const Home = () => {
             Upload
           </button>
           <ToastContainer />
+          <div className="relative">
+            <button className="hover:bg-primary/70 transition duration-150 bg-primary text-black px-3 rounded-lg font-bold text-sm">
+              Select Language
+            </button> { /* dookie stain */}
+            <div className="absolute top-8 right-0 bg-white rounded-md shadow-md">
+              <button className="block w-full text-left px-4 py-2 hover:bg-gray-200" onClick={() => handleLanguageChange("javascript")}>JavaScript</button>
+              <button className="block w-full text-left px-4 py-2 hover:bg-gray-200" onClick={() => handleLanguageChange("python")}>Python</button>
+              {/* Add more buttons for other languages */}
+            </div>
+          </div>
           <button className="hover:bg-primary/70 transition duration-150 bg-primary text-black px-3 rounded-lg font-bold text-sm">
             Copy
           </button>
@@ -135,12 +152,13 @@ const Home = () => {
         <div className='col-span-5 overflow-hidden'>
           <Editor
           theme="vs-dark"
-          defaultLanguage="typescript"
+          defaultLanguage={selectedLanguage}
           minimap="false"
           onChange={onChange}
           options={options}
           />
         </div>
+        <ToastContainer />
       </main>
     </div>
   );

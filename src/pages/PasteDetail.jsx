@@ -56,15 +56,6 @@ const PasteDetail = () => {
     fetchPasteContent();
   }, [db, pasteId]);
 
-  const options = {
-    readOnly: true,
-    fontSize: 13,
-    lineHeight: 24,
-    minimap: {
-      enabled: false,
-    },
-  };
-
   // imo using setters and if statements for stuff like this is stupid i know. but the other way i tried didnt work so here we are.
   if (loading) {
     return (
