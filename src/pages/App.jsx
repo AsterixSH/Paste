@@ -75,7 +75,7 @@ const Home = () => {
         toast.error('Paste content exceeds maximum allowed length of 5,000 characters.', {icon: <CodeIcon />,});
         return
 
-      } else if (pasteContent.split('\n').length > 5) {
+      } else if (pasteContent.split('\n').length > 5000) {
         toast.error('Paste content exceeds maximum allowed length of 5,000 lines.', {icon: <CodeIcon />,}); // yet to position, prob bottom right corner
         return
       }
@@ -99,10 +99,6 @@ const Home = () => {
     }
   };
 
-  const handleLanguageChange = (language) => {
-    setSelectedLanguage(language);
-  };
-
   return (
     <div className="h-screen flex flex-col bg-background-gray">
       <navbar className="px-4 text-white p-2 flex flex-row items-center gap-5 border-b border-zinc-700">
@@ -122,16 +118,6 @@ const Home = () => {
             Upload
           </button>
           <ToastContainer />
-          <div className="relative">
-            <button className="hover:bg-primary/70 transition duration-150 bg-primary text-black px-3 rounded-lg font-bold text-sm">
-              Select Language
-            </button> { /* dookie stain */}
-            <div className="absolute top-8 right-0 bg-white rounded-md shadow-md">
-              <button className="block w-full text-left px-4 py-2 hover:bg-gray-200" onClick={() => handleLanguageChange("javascript")}>JavaScript</button>
-              <button className="block w-full text-left px-4 py-2 hover:bg-gray-200" onClick={() => handleLanguageChange("python")}>Python</button>
-              {/* Add more buttons for other languages */}
-            </div>
-          </div>
           <button className="hover:bg-primary/70 transition duration-150 bg-primary text-black px-3 rounded-lg font-bold text-sm">
             Copy
           </button>
@@ -139,8 +125,6 @@ const Home = () => {
             Clear
           </button>
         </div>
-
-        {/* <a className="text-sm font-light">Change Log</a> */}
       </navbar>
 
       <main className="grid grid-cols-6 h-full">
@@ -148,6 +132,7 @@ const Home = () => {
         <div className="flex flex-col border-r border-zinc-700 text-white">
           <h1 className='text-lg font-black my-2 mx-2'>Recent Pastes</h1>
           {pastes.map(paste => (
+              // eslint-disable-next-line react/jsx-key
             <a href={'paste/' + paste.id} className='hover:bg-zinc-800/70 transition duration-150 py-1.5 px-3 mx-2 bg-zinc-800 rounded-lg my-1 flex flex-row'>
               <svg className="fill-zinc-400 h-5 shrink-0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M364.2 83.8c-24.4-24.4-64-24.4-88.4 0l-184 184c-42.1 42.1-42.1 110.3 0 152.4s110.3 42.1 152.4 0l152-152c10.9-10.9 28.7-10.9 39.6 0s10.9 28.7 0 39.6l-152 152c-64 64-167.6 64-231.6 0s-64-167.6 0-231.6l184-184c46.3-46.3 121.3-46.3 167.6 0s46.3 121.3 0 167.6l-176 176c-28.6 28.6-75 28.6-103.6 0s-28.6-75 0-103.6l144-144c10.9-10.9 28.7-10.9 39.6 0s10.9 28.7 0 39.6l-144 144c-6.7 6.7-6.7 17.7 0 24.4s17.7 6.7 24.4 0l176-176c24.4-24.4 24.4-64 0-88.4z"/></svg>
               <span className='ml-2 text-sm overflow-hidden'>{paste.id}</span>           
