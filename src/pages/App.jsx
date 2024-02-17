@@ -1,11 +1,11 @@
 import { Route, Routes, useNavigate } from 'react-router-dom';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { getFirestore, collection, getDocs, query, addDoc, serverTimestamp } from 'firebase/firestore';
 
 import { initializeApp } from 'firebase/app';
 import firebaseConfig from '../components/firebaseConfig.jsx';
 import PasteDetail from "./PasteDetail.jsx";
-import MonacoEditor from "react-monaco-editor";
+import Editor from "@monaco-editor/react"
 
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
@@ -119,21 +119,14 @@ const Home = () => {
         </div>
         
         <div className='col-span-5 overflow-hidden'>
-          <MonacoEditor
-            theme="vs-dark"
-            options={options}
-            language="javascript"
-            onChange={onChange}
-            value={pasteContent}
+          <Editor 
+          theme="vs-dark" 
+          defaultLanguage="typescript"
+          minimap="false"
+          onChange={onChange}
+          options={options}
           />
         </div>
-
-        {/* <textarea
-          value={pasteContent}
-          onChange={(e) => setPasteContent(e.target.value)}
-          placeholder="Enter your paste here..."
-          className="p-2 resize-none outline-none bg-background-gray text-white col-span-5"
-        ></textarea> */}
       </main>
     </div>
   );
