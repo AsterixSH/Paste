@@ -4,14 +4,13 @@ import { getFirestore, doc, getDoc } from 'firebase/firestore';
 import Editor from "@monaco-editor/react"
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import '../assets/styles/app.css';
+import '../assets/styles/index.css';
 import CodeIcon from '../components/CodeIcon.jsx';
 
 const PasteDetail = () => {
   const { pasteId } = useParams();
   const [pasteContent, setPasteContent] = useState('');
   const [pasteNotFound, setPasteNotFound] = useState(false);
-  const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const db = getFirestore();
 
@@ -58,25 +57,11 @@ const PasteDetail = () => {
       } catch (error) {
           console.error('Error fetching paste content:', error);
           setError(error.message);
-      } finally {
-        setLoading(false);
       }
     };
 
     fetchPasteContent();
   }, [db, pasteId]);
-
-  if (loading) {
-    return (
-      <div className="h-screen flex justify-center items-center bg-loading">
-        <div className="bg-nav-gray rounded-lg p-8 text-white text-center shadow-xl">
-          <h2 className="text-3xl font-semibold mb-4">Loading...</h2>
-          <p className="text-lg mb-4">We are currently loading the requested paste...</p>
-          {/* <p className="text-sm">This shouldn't take long unless unexpected paste content size or database responce times.</p> */}
-        </div>
-      </div>
-    );
-  }
 
   if (pasteNotFound) {
     return (

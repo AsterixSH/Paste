@@ -9,7 +9,7 @@ import Editor from "@monaco-editor/react"
 
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import '../assets/styles/app.css';
+import '../assets/styles/index.css';
 import CodeIcon from '../components/CodeIcon.jsx';
 
 const app = initializeApp(firebaseConfig);
