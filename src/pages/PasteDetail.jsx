@@ -2,10 +2,7 @@ import { useParams } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { getFirestore, doc, getDoc } from 'firebase/firestore';
 import Editor from "@monaco-editor/react"
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
 import '../assets/styles/index.css';
-import CodeIcon from '../components/CodeIcon.jsx';
 
 const PasteDetail = () => {
   const { pasteId } = useParams();
@@ -48,9 +45,6 @@ const PasteDetail = () => {
         if (pasteDocSnap.exists()) {
           const pasteData = pasteDocSnap.data();
           setPasteContent(pasteData.content);
-
-          // TODO: update this to display current syntax highlighting setting
-          toast.info("Highlighting syntax for TypeScript", {icon: <CodeIcon />,})
         } else {
           setPasteNotFound(true);
         }
@@ -90,12 +84,11 @@ const PasteDetail = () => {
   return (
       <div className='w-full h-screen'>
         <Editor
-      theme="vs-dark"
-      defaultLanguage="typescript"
-      options={options}
-      value={pasteContent}
-      />
-      <ToastContainer />
+        theme="vs-dark"
+        defaultLanguage="typescript"
+        options={options}
+        value={pasteContent}
+        />
     </div>
 
   );
