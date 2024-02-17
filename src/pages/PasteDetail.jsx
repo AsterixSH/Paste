@@ -1,7 +1,7 @@
 import { useParams } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { getFirestore, doc, getDoc } from 'firebase/firestore';
-import MonacoEditor from "react-monaco-editor";
+import Editor from "@monaco-editor/react"
 
 const PasteDetail = () => {
   const { pasteId } = useParams();
@@ -10,6 +10,28 @@ const PasteDetail = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const db = getFirestore();
+
+  const options = {
+    autoIndent: 'full',
+    contextmenu: true,
+    fontFamily: 'monospace',
+    fontSize: 13,
+    lineHeight: 24,
+    hideCursorInOverviewRuler: true,
+    matchBrackets: 'always',
+    minimap: {
+      enabled: false,
+    },
+    scrollbar: {
+      horizontalSliderSize: 4,
+      verticalSliderSize: 18,
+    },
+    selectOnLineNumbers: true,
+    roundedSelection: false,
+    readOnly: true,
+    cursorStyle: 'line',
+    automaticLayout: true,
+  };
 
   useEffect(() => {
     const fetchPasteContent = async () => {
@@ -76,14 +98,12 @@ const PasteDetail = () => {
   }
 
   return (
-    <div className="h-screen flex justify-center items-center bg-background-gray">
-      <MonacoEditor
-        language="plaintext"
-        theme="vs-dark"
-        value={pasteContent}
-        options={options}
-        height="100vh"
-        width="100vw"
+    <div className='w-full h-screen'>
+      <Editor
+      theme="vs-dark"
+      defaultLanguage="typescript"
+      options={options}
+      value={pasteContent}
       />
     </div>
   );

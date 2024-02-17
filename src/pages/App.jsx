@@ -5,10 +5,7 @@ import { getFirestore, collection, getDocs, query, addDoc, serverTimestamp } fro
 import { initializeApp } from 'firebase/app';
 import firebaseConfig from '../components/firebaseConfig.jsx';
 import PasteDetail from "./PasteDetail.jsx";
-import MonacoEditor from "react-monaco-editor";
-
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import Editor from "@monaco-editor/react"
 
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
@@ -91,6 +88,7 @@ const Home = () => {
       console.error('Error saving the paste to firebase ', error);
     }
   };
+  
 
   return (
     <div className="h-screen flex flex-col bg-background-gray">
@@ -135,21 +133,14 @@ const Home = () => {
         </div>
         
         <div className='col-span-5 overflow-hidden'>
-          <MonacoEditor
-            theme="vs-dark"
-            options={options}
-            language="javascript"
-            onChange={onChange}
-            value={pasteContent}
+          <Editor
+          theme="vs-dark"
+          defaultLanguage="typescript"
+          minimap="false"
+          onChange={onChange}
+          options={options}
           />
         </div>
-        <ToastContainer />
-        {/* <textarea
-          value={pasteContent}
-          onChange={(e) => setPasteContent(e.target.value)}
-          placeholder="Enter your paste here..."
-          className="p-2 resize-none outline-none bg-background-gray text-white col-span-5"
-        ></textarea> */}
       </main>
     </div>
   );
