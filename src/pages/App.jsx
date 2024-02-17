@@ -9,6 +9,8 @@ import Editor from "@monaco-editor/react"
 
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import '../assets/styles/app.css';
+import CodeIcon from '../components/CodeIcon.jsx';
 
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
@@ -66,17 +68,18 @@ const Home = () => {
 
       // Check if paste content exceeds maximum allowed length of 5000 characters or 5000 lines
       if (pasteContent.length > 5000 && pasteContent.split('\n').length > 5000) {
-        toast.error('Paste content exceeds maximum allowed length of 5,000 characters and 5,000 lines.');
+        toast.error('Paste content exceeds maximum allowed length of 5,000 characters and 5,000 lines.', {icon: <CodeIcon />,});
         return
+
       } else if (pasteContent.length > 5000) {
-        toast.error('Paste content exceeds maximum allowed length of 5,000 characters.');
+        toast.error('Paste content exceeds maximum allowed length of 5,000 characters.', {icon: <CodeIcon />,});
         return
-      } else if (pasteContent.split('\n').length > 5000) {
-        toast.error('Paste content exceeds maximum allowed length of 5,000 lines.'); // yet to position, prob bottom right corner
+
+      } else if (pasteContent.split('\n').length > 5) {
+        toast.error('Paste content exceeds maximum allowed length of 5,000 lines.', {icon: <CodeIcon />,}); // yet to position, prob bottom right corner
         return
       }
 
-      toast.success("Successfully uploaded paste!")
       const pasteRef = collection(db, 'pastes');
       // generates id using timestamp
       const newPaste = await addDoc(pasteRef, {
@@ -84,12 +87,15 @@ const Home = () => {
         timestamp: serverTimestamp(),
       });
 
+      toast.success("Successfully uploaded paste!", {icon: <CodeIcon />,})
+
       const pasteUrl = `/paste/${newPaste.id}`;
       navigate(pasteUrl);
 
       setPasteContent('');
     } catch (error) {
       console.error('Error saving the paste to firebase ', error);
+      toast.error("Error saving the paste to database...")
     }
   };
 

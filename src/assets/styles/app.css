@@ -1,0 +1,4 @@
+.Toastify__toast--error {
+  background-color: #0d0d0d; /* Probably should retrieve this from vite config, however i can't remember how to do that... soo */
+  color: #FFF; /* White text */
+}
