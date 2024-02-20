@@ -2,9 +2,9 @@ import { useParams } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { getFirestore, doc, getDoc } from 'firebase/firestore';
 import Editor from "@monaco-editor/react"
-import '../assets/styles/index.css';
+import '../../assets/styles/index.css';
 
-const PasteDetail = () => {
+const EditorView = () => {
   const { pasteId } = useParams();
   const [pasteContent, setPasteContent] = useState('');
   const [pasteNotFound, setPasteNotFound] = useState(false);
@@ -94,4 +94,4 @@ const PasteDetail = () => {
   );
 };
 
-export default PasteDetail;
+export default EditorView;

@@ -1,16 +1,15 @@
-import { Route, Routes, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { getFirestore, collection, getDocs, query, addDoc, serverTimestamp } from 'firebase/firestore';
 
 import { initializeApp } from 'firebase/app';
-import firebaseConfig from '../components/firebaseConfig.jsx';
-import PasteDetail from "./PasteDetail.jsx";
+import firebaseConfig from '../../components/firebaseConfig.jsx';
 import Editor from "@monaco-editor/react"
 
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import '../assets/styles/index.css';
-import CodeIcon from '../components/CodeIcon.jsx';
+import '../../assets/styles/index.css';
+import CodeIcon from '../../components/CodeIcon.jsx';
 
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
@@ -113,6 +112,8 @@ const Home = () => {
         </a>
 
         <div className="fixed py-2 px-4 flex flex-row border-l border-zinc-700 right-0 gap-4">
+          <input className="bg-zinc-800 text-sm text-white px-2 rounded-lg outline-none" type="text" name="" id="" placeholder="Password"/>
+
           <button onClick={savePasteToFirebase} className="hover:bg-primary/70 transition duration-150 bg-primary text-black px-3 py-1 rounded-lg font-bold text-sm">
             Upload
           </button>
@@ -154,14 +155,4 @@ const Home = () => {
   );
 };
 
-function App() {
-  return (
-    <Routes>
-      <Route path="/" element={<Home />} />
-
-      <Route path="/paste/:pasteId" element={<PasteDetail />} />
-    </Routes>
-  );
-}
-
-export default App;
+export default Home;
