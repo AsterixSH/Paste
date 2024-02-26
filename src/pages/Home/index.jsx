@@ -18,6 +18,7 @@ const Home = () => {
   const [pasteContent, setPasteContent] = useState('');
   const navigate = useNavigate();
   const [pastes, setPastes] = useState([]);
+  const [password, setPassword] = useState('');
 
   const options = {
     autoIndent: 'full',
@@ -78,11 +79,17 @@ const Home = () => {
         return
       }
 
-      const pasteRef = collection(db, 'pastes');
-      const newPaste = await addDoc(pasteRef, {
-        content: pasteContent,
-        timestamp: serverTimestamp(),
-      });
+    const pasteData = {
+      content: pasteContent,
+      timestamp: serverTimestamp(),
+    };
+
+    if (password.trim() !== '') {
+      pasteData.password = password;
+    }
+
+    const pasteRef = collection(db, 'pastes');
+    const newPaste = await addDoc(pasteRef, pasteData);
 
       toast.success("Successfully uploaded paste!", {icon: <CodeIcon />,})
 
@@ -111,8 +118,15 @@ const Home = () => {
         </a>
 
         <div className="fixed py-2 px-4 flex flex-row border-l border-zinc-700 right-0 gap-4">
-          <input className="bg-zinc-800 text-sm text-white px-2 rounded-lg outline-none" type="text" name="" id=""
-                 placeholder="Password"/>
+          <input
+              className="bg-zinc-800 text-sm text-white px-2 rounded-lg outline-none"
+              type="text"
+              name=""
+              id=""
+              placeholder="Password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+          />
 
           <button onClick={savePasteToFirebase}
                   className="hover:bg-primary/70 transition duration-150 bg-primary text-black px-3 py-1 rounded-lg font-bold text-sm">
@@ -127,7 +141,8 @@ const Home = () => {
             Copy
           </button>
 
-          <button className="hover:bg-primary/70 transition duration-150 bg-primary text-black px-3 rounded-lg font-bold text-sm">
+          <button
+              className="hover:bg-primary/70 transition duration-150 bg-primary text-black px-3 rounded-lg font-bold text-sm">
             Clear
           </button>
         </div>
@@ -139,7 +154,7 @@ const Home = () => {
 
         <div className="flex flex-col border-r bg-background-gray border-zinc-700 text-white" style={{
           overflowY: 'auto',
-          scrollbarWidth: 'thin',
+          scrollbarWidth: 'none',
           scrollbarColor: 'transparent transparent'
         }}>
           <h1 className='text-lg font-black my-2 mx-2'>Recent Pastes</h1>
