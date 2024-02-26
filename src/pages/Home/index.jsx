@@ -115,7 +115,7 @@ const Home = () => {
           <span className="text-2xl font-bold">Paste</span>
         </a>
 
-        <div className="fixed py-2 px-4 flex flex-row border-l border-zinc-700 right-0 gap-4">
+        <div className="fixed py-2 px-4 flex flex-row border-zinc-700 right-0 gap-4">
           <input
               className="bg-zinc-800 text-sm text-white px-2 rounded-lg outline-none"
               type="text"
@@ -129,19 +129,6 @@ const Home = () => {
           <button onClick={savePasteToFirebase}
                   className="hover:bg-primary/70 transition duration-150 bg-primary text-black px-3 py-1 rounded-lg font-bold text-sm">
             Upload
-          </button>
-
-          <button onClick={() => {
-            navigator.clipboard.writeText(pasteContent);
-            toast.success("Copied to clipboard!", {icon: <CodeIcon/>,});
-          }}
-                  className="hover:bg-primary/70 transition duration-150 bg-primary text-black px-3 rounded-lg font-bold text-sm">
-            Copy
-          </button>
-
-          <button
-              className="hover:bg-primary/70 transition duration-150 bg-primary text-black px-3 rounded-lg font-bold text-sm">
-            Clear
           </button>
         </div>
         <ToastContainer/>
@@ -165,7 +152,6 @@ const Home = () => {
                         <path
                             d="M78,36H72V24a24,24,0,0,0-48,0V36H18a5.9966,5.9966,0,0,0-6,6V90a5.9966,5.9966,0,0,0,6,6H78a5.9966,5.9966,0,0,0,6-6V42A5.9966,5.9966,0,0,0,78,36ZM36,24a12,12,0,0,1,24,0V36H36ZM72,84H24V48H72Z"/>
                       </svg>
-
                 ) : (
                     <svg className="fill-zinc-400 h-5 shrink-0" xmlns="http://www.w3.org/2000/svg"
                          viewBox="0 0 448 512">
