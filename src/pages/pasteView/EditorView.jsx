@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import { getFirestore, doc, getDoc } from 'firebase/firestore';
 import Editor from "@monaco-editor/react"
 import '../../assets/styles/index.css';
+import { options } from '../../components/editorOptions.jsx';
 
 const EditorView = () => {
   const { pasteId } = useParams();
@@ -13,31 +14,6 @@ const EditorView = () => {
   const [incorrectPassword, setIncorrectPassword] = useState(false);
 
   const db = getFirestore();
-
-  const options = {
-    autoIndent: 'full',
-    contextmenu: true,
-    fontFamily: 'monospace',
-    fontSize: 13,
-    lineHeight: 24,
-    hideCursorInOverviewRuler: true,
-    matchBrackets: 'always',
-
-    minimap: {
-      enabled: false,
-    },
-
-    scrollbar: {
-      horizontalSliderSize: 4,
-      verticalSliderSize: 18,
-    },
-
-    selectOnLineNumbers: true,
-    roundedSelection: false,
-    readOnly: true,
-    cursorStyle: 'line',
-    automaticLayout: true,
-  };
 
   const fetchPasteContent = async () => {
     try {
@@ -131,7 +107,7 @@ const EditorView = () => {
       <Editor
         theme="vs-dark"
         defaultLanguage="python"
-        options={options}
+        options={options(true)}
         value={pasteContent}
       />
     </div>

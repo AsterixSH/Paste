@@ -8,6 +8,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import '../../assets/styles/index.css';
 import CodeIcon from '../../components/CodeIcon.jsx';
+import { options} from '../../components/editorOptions.jsx'
 
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
@@ -17,28 +18,6 @@ const Home = () => {
   const navigate = useNavigate();
   const [pastes, setPastes] = useState([]);
   const [password, setPassword] = useState('');
-
-  const options = {
-    autoIndent: 'full',
-    contextmenu: true,
-    fontFamily: 'monospace',
-    fontSize: 13,
-    lineHeight: 24,
-    hideCursorInOverviewRuler: true,
-    matchBrackets: 'always',
-    minimap: {
-      enabled: false,
-    },
-    scrollbar: {
-      horizontalSliderSize: 4,
-      verticalSliderSize: 18,
-    },
-    selectOnLineNumbers: true,
-    roundedSelection: false,
-    readOnly: false,
-    cursorStyle: 'line',
-    automaticLayout: true,
-  };
 
   function onChange(newValue) {
     setPasteContent(newValue);
@@ -170,7 +149,7 @@ const Home = () => {
               defaultLanguage="python"
               minimap="false"
               onChange={onChange}
-              options={options}
+              options={options(false)}
           />
         </div>
         <ToastContainer/>
