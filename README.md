@@ -1,8 +1,25 @@
-# React + Vite
+# Paste Frontend
+This is our frontend for paste.asterix.sh, this is hosted on [Firebase Hosting](https://firebase.google.com/).
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Local Development (configure FireStore)
+Replace [bun](https://bun.sh) with your prefered JavaScript runtime. (NPM)
+```console
+# Install Depends
+$ bun install
 
-Currently, two official plugins are available:
+# Run The Web Server
+$ bun run dev
+```
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Prodution Deployment
+Replace [bun](https://bun.sh) with your prefered JavaScript runtime. (NPM)
+```console
+# Install Firebase Globally
+$ bun install -g firebase-tools
+
+# Login to Firebase
+$ firebase login
+
+# Deploy to Firebase Hosting
+$ firebase deploy
+```
