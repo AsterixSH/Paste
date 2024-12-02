@@ -18,7 +18,7 @@ const Navbar = ({savePasteToFirebase, hidden, setHidden}) => {
                 </button>
                 :
                 <button onClick={() => setHidden(false)} className="hover:bg-primary/70 transition duration-150 bg-primary text-black px-3 py-1 rounded-lg font-bold text-sm">
-                    Hidden
+                    Visible
                 </button>
                 }
 

@@ -30,7 +30,7 @@ const Home = () => {
         return;
       }
 
-      const newPaste = await uploadPaste(pasteContent, hidden);
+      const newPaste = await uploadPaste(pasteContent, !hidden);
 
       toast.success("Successfully uploaded paste!", {icon: <CodeIcon />,})
 

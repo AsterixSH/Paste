@@ -10,7 +10,9 @@ export const getPastes = async () => {
 
     const pastes = [];
     querySnapshot.forEach((doc) => {
-      pastes.push({ id: doc.id, ...doc.data() });
+        if (doc.data().visiblity === 'public') {
+            pastes.push({ id: doc.id, ...doc.data() });
+        }
     });
     
     return pastes;
