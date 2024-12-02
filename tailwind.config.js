@@ -7,6 +7,7 @@ export default {
   theme: {
     extend: {
       backgroundColor: {
+        'editor-gray': '#1e1e1e',
         'nav-gray': '#161616',
         'background-gray': '#0d0d0d',
         'divider': '#333333',
